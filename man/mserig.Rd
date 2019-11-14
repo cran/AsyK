@@ -2,7 +2,7 @@
 % Please edit documentation in R/AsyK.R
 \name{mserig}
 \alias{mserig}
-\title{Calculate Mean Square Error( MSE) when RIG kernel is used.}
+\title{Calculate Mean Squared Error( MSE) when RIG kernel is used.}
 \usage{
 mserig(y, k, h, type)
 }
@@ -14,7 +14,7 @@ mserig(y, k, h, type)
 \item{h}{the bandwidth}
 
 \item{type}{mention distribution of vector.If exponential distribution then use "Exp".
-if use gamma distribution then use "Gamma".}
+if use gamma distribution then use "Gamma".If Weibull distribution then use "Weibull".}
 }
 \value{
 MSE

@@ -2,7 +2,7 @@
 % Please edit documentation in R/AsyK.R
 \name{NSR}
 \alias{NSR}
-\title{Calculate Bandwidth.}
+\title{Bandwidth Calculation.}
 \usage{
 NSR(y)
 }

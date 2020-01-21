@@ -19,3 +19,9 @@ Calculate Bandwidth proposed by Silverman for nonnormal data.
 y<-rexp(10,1)
  NSR(y)
 }
+\references{
+Silverman, B. W. 1986. \emph{Density Estimation}. Chapman & Hall/ CRC, London.
+}
+\author{
+Javaria Ahmad Khan, Atif Akbar.
+}

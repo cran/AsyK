@@ -1,69 +1,161 @@
-#' Plot Density by RIG kernel.
+#' AsyK
 #'
-#' Plot Kernel density by using Resiprocal Inverse Gaussian Kernel.
+#' Kernel Density Estimation and Selection of Optimum Bandwidth
+#'
+#' @description  A collection of functions related to density estimation by using Chen's (2000) idea. For observing estimated values see \code{\link{Laplace}} and \code{\link{RIG}}. Plots by using these kernels can be drawn by \code{\link{plot.Laplace}} and \code{\link{plot.RIG}}. Additionally, their combined plot is drawn by using \code{\link{compLR}}. Mean squared errors (MSE) can be calculated by \code{\link{mseLap}} and \code{\link{mseRIG}}. Further \code{\link{laphcomp}} and \code{\link{righcomp}} allows to calculate MSE by using
+#' 19 different bandwidths for both kernels. Here we also present a normal scale rule bandwidth which is given by Silverman (1986) for nonnormal data.
+#'@author Javaria Ahmad Khan, Atif Akbar.
+#'@references \itemize{
+#' \item Chen, S. X. 2000. Probability density function estimation using Gamma kernels. \emph{Annals of the Institute of Statistical Mathematics} \strong{52} (3), 471-480.
+#' \item Silverman, B. W. 1986. \emph{Density Estimation}. Chapman & Hall/ CRC, London.
+#' \item Sheather, S.J.; Jones, M.C. 1991. A Reliable Data-Based Bandwidth Selection Method for Kernel Density Estimation. \emph{Journal of the Royal Statistical Society, B}, \strong{53}, 683-690.
+#' \item Bowman, A.W.; Hall, P.; Prvan, T. 1998. Cross-validation for The Smoothing of Distribution Functions. \emph{Biometrika}, \strong{85}, 799-808.
+#' \item Rudemo, M. 1982. Empirical Choice of Histograms and Kernel Density Estimators. \emph{Scandinavian Journal of Statistics}, \strong{9}, 65–78.
+#' \item Feluch, W.; Koronacki, J. 1992. A Note on Modified Cross-Validation in Density Estimation. \emph{Computational Statistics and Data Analysis}, \strong{13}, 143–151.
+#' \item Stute, W. 1992. Modified Cross Validation in Density Estimation. \emph{Journal of Statistical Planning and Inference}, \strong{30}, 293–305.
+#' \item Miiller, H.-G. 1985. Empirical Bandwidth Choice for Nonparametric Kernel Regression by Means of Pilot Estimators. \emph{Statistics and Decisions}, Supplement No.\strong{2}, 193-206.
+#' \item Hall, P.; Marron, J.S.; Park, B.U. 1992. Smoothed Cross-Validation. \emph{Probability Theory and Related Fields}, 92}, 1-20.
+#' \item Habbema, J. D. F.; Hermans, J.; Van den Broek, K. 1974. \emph{A Discrimination Analysis Program Using Density Estimation. COMPSTAT 1974: Proceedings in Computational Statistics}. Physica Verlag, Vienna.
+#' \item Wang, X.F.; Wang, B. 2011. Deconvolution Estimation in Measurement Error Models: The R package decon. \emph{Journal of Statistical Software}, \strong{39} (10),1- 24.
+#' \item Altman, N.; Leger, C. 1995. Bandwidth Selection for Kernel Distribution Function Estimation. \emph{Journal of Statistical Planning and Inference}, \strong{46}, 195–214.
+#' \item Jones, M. C.; Kappenman, R. F. 1991. On A Class of Kernel Density Estimate Bandwidth Selectors. \emph{Scandinavian Journal of Statistics}, \strong{19},337–349.
+#' \item Scott, D. W., Terrel, G, R. 1987. Biased and Unbiased Cross-Validation in Density Estimation. \emph{Journal of the American Statistical Association}, \strong{82}, 1131–1146.
+#' \item Savchuk Y. O.; Jeffrey D.; Hart & Simon P. Sheather 2013. One-sided Cross-Validation for Non-smooth Regression Functions. \emph{Journal of Nonparametric Statistics}, \strong{25} (4), 889-904.
+#' \item Savchuk Y. O.; Jeffrey D.; Hart & Simon J. Sheather 2010. Indirect Cross Validation for Density Estimation. \emph{Journal of the American Statistical Association}, \strong{105} (489), 415-423.
+#' \item Polansky, A. M.; Baker, E. R. 2000. Multistage plug-in bandwidth selection for kernel distribution function estimates. \emph{Journal of Statistical Computation and Simulation}, \strong{65}, 63–80.
+#' \item Akaike, H. 1970. Statistical Predictor Identification. \emph{Annals of the Institute of Statistical Mathematics}, \strong{22}, 203-217.
+#' \item Mallows, C. 1973. Some Comments Cp. \emph{Technometrics}, \strong{15}, 661-675.
+#' \item Scaillet, O. 2004. Density estimation using inverse and reciprocal inverse Gaussian kernels. \emph{Nonparametric Statistics}, \strong{16}, 217-226.
+#' \item Carven, P.; Wahba, G. 1979. Smoothing Noisy Data with Spline Functions. \emph{Numerische Ifathemat Ik}, \strong{31}, 377-403.
+#' \item Staniswalis, J.G. 1989a. Local bandwidth selection for kernel estimates. \emph{Journal of the American Statistical Association}, \strong{84}, 284-8.
+#' \item Gasser, T.; Kneip, A.; K¨ohler, W.  1991. A Flexible and Fast Method for Automatic Smoothing. \emph{Journal of the American Statistical Association}, \strong{86}, 643–652.
+#' \item Khan, J. A.; Akbar, A. Density Estimation by Laplace Kernel. \emph{Working paper,  Department of Statistics, Bahauddin Zakariya University, Multan, Pakistan.}
+#' }
+"_PACKAGE"
+#' Estimated Density Values by Resiprocal Inverse Gaussian kernel
+#'
+#' Estimated Kernel density values by using Resiprocal Inverse Gaussian Kernel.
+#' @details Scaillet 2003. proposed Resiprocal Inverse Gaussian kerenl. He claimed that his proposed kernel share the same properties as those of gamma kernel estimator.
+#' \deqn{K_{RIG \left( \ln{ax}4\ln {(\frac{1}{h})} \right)}(y)=\frac{1}{\sqrt {2\pi y}}  exp\left[-\frac{x-h}{2h} \left(\frac{y}{x-h}-2+\frac{x-h}{y}\right)\right]}
 #' @param y a numeric vector of positive values.
 #' @param k gird points.
 #' @param h the bandwidth
+#' @import stats
+#' @examples
+#' y <- rexp(100,1)
+#' h <- 0.79 * IQR(y) * length(y) ^ (-1/5)
+#' RIG(y,200,h)
+#' @return \item{x}{grid points}
+#'         \item{y}{estimated values of density}
+#' @author Javaria Ahmad Khan, Atif Akbar.
+#' @references Scaillet, O. 2004. Density estimation using inverse and reciprocal inverse Gaussian kernels. 	 \emph{Nonparametric Statistics}, \strong{16}, 217-226.
+#' @seealso To examine RIG density plot see \code{\link{plot.RIG}} and for Mean Squared Error \code{\link{mseRIG}}. Similarly, for Laplace kernel \code{\link{Laplace}}.
+#' @export
+RIG<-function(y,k,h){
+   n <- length(y)
+   x <- seq(min(y) + 0.05, max(y), length = k)
+
+   fhat <- rep(0, k)
+   KRIG <- matrix(rep(0, k * n), ncol = k)
+
+   for(j in 1:k) {
+      for(i in 1:n) {
+
+         KRIG[i, j] <- 1/(sqrt(2 * pi * h * y[i])) * exp(((-1 *(y[i] - h))/(2 * h) * (x[j]/(y[i] - h) - 2 +(y[i] - h)/x[j])))
+      }
+      fhat[j] <- 1/n * (sum(KRIG[, j]))
+   }
+   results <- list(x=x, y=fhat)
+   class ( results ) <-c('list', 'RIG')
+   results
+}
+
+#' Density Plot by Resiprocal Inverse Gaussian kernel
+#'
+#' Plot density by using Resiprocal Inverse Gaussian Kernel.
+#' @param x an object of class "RIG"
+#' @param \dots Not presently used in this implementation
 #' @import graphics
 #' @import stats
 #' @examples
-#' y<-rexp(23,1)
-#' h<-0.79 * IQR(y) * length(y) ^ (-1/5)
-#' graphrig(y,80,h)
+#' y <- rexp(100, 1)
+#' h <- 0.79 * IQR(y) * length(y) ^ (-1/5)
+#' den<-RIG(y,200,h)
+#' plot(den, type = "s", ylab = "Density Function", lty = 1, xlab = "Time")
+#' d1 <- density(y, bw=h) #To add true density along with estimated
+#' lines(d1,type="p",col="red")
+#' legend("topright", c("Real Density", "Density by RIG Kernel"), col=c("red", "black"), lty=c(1,2))
+#' @return nothing
+#' @author Javaria Ahmad Khan, Atif Akbar.
+#' @references Scaillet, O. 2004. Density estimation using inverse and reciprocal inverse Gaussian kernels. 	 \emph{Nonparametric Statistics}, \strong{16}, 217-226.
+#' @seealso To examine RIG estimated values for density see \code{\link{RIG}} and for Mean Squared Error \code{\link{mseRIG}}. Similarly, for plot of Laplace kernel \code{\link{plot.Laplace}}.
 #' @export
-
-graphrig<-function(y,k,h){
-  n <- length(y)
-  x <- seq(min(y) + 0.05, max(y), length = k)
-
-  fhat <- rep(0, k)
-  KRIG <- matrix(rep(0, k * n), ncol = k)
-
-  for(j in 1:k) {
-    for(i in 1:n) {
-
-      KRIG[i, j] <- 1/(sqrt(2 * pi * h * y[i])) * exp(((-1 *(y[i] - h))/(2 * h) * (x[j]/(y[i] - h) - 2 +(y[i] - h)/x[j])))
-    }
-    fhat[j] <- 1/n * (sum(KRIG[, j]))
-    d1<-density(y,bw=h)
-    plot(x, fhat, type = "l",ylab = "Density Function", lty = 1, xlab = "Time",ylim=c(min(fhat),max(fhat)))
-    lines(d1,type="p",col="red")
-    legend("topright", c("Real Density", "Density by  RIG  Kernel"),
-           col=c("red", "black"), lty=c(1,2))
-  }}
-#' Plot Density by Laplace kernel.
+plot.RIG <- function(x,...) {
+   plot(x$x, x$y,...)
+}
+#' Estimated Density Values by Laplace kernel
 #'
-#' Plot Kernel density by using Laplace Kernel.
+#' Estimated Kernel density values by using Laplace Kernel.
+#' @details Laplace kernel is developed by Khan and Akbar. Kernel is developed by using Chen's idea. Laplace kernel is;
+#' \deqn{K_{Laplace\left(x,h^{\frac{1}{2}}\right)} (u)=\frac{1}{2\sqrt h}exp \left(-\frac{|t{u-x}|}{\sqrt h}\right)}
+
 #' @param y a numeric vector of positive values.
 #' @param k gird points.
 #' @param h the bandwidth
+#' @import stats
+#' @examples
+#' y <- rexp(100,1)
+#' h <- 0.79 * IQR(y) * length(y) ^ (-1/5)
+#' Laplace(y,200,h)
+#' @return \item{x}{grid points}
+#'         \item{y}{estimated values of density}
+#' @author Javaria Ahmad Khan, Atif Akbar.
+#' @references Khan, J. A.; Akbar, A. Density Estimation by Laplace Kernel. \emph{Working paper,  Department of Statistics, Bahauddin Zakariya University, Multan, Pakistan.}
+#' @seealso To examine laplace density plot see \code{\link{plot.Laplace}} and for Mean Squared Error \code{\link{mseLap}}. Similarly, for RIG kernel \code{\link{RIG}}.
+#' @export
+Laplace<-function(y,k,h){
+   n <- length(y)
+   x <- seq(min(y) + 0.05, max(y), length = k)
+
+   fhat <- rep(0, k)
+   KLaplace <- matrix(rep(0, k * n), ncol = k)
+
+   for(j in 1:k) {
+      for(i in 1:n) {
+
+         KLaplace[i, j] <-(1/(2*sqrt(h)))*exp(-(abs(y[i]-(x[j])))/sqrt(h))
+      }
+      fhat[j] <- 1/n * (sum(KLaplace[, j]))
+   }
+   results <- list(x=x, y=fhat)
+   class ( results ) <-c('list', 'Laplace')
+   results
+}
+
+#' Density Plot by Laplace kernel
+#'
+#' Plot density by using Laplace Kernel.
+#' @param x an object of class "Laplace"
+#' @param \dots Not presently used in this implementation
 #' @import graphics
 #' @import stats
 #' @examples
-#' y<-rexp(23,1)
-#' h<-0.79 * IQR(y) * length(y) ^ (-1/5)
-#' graphLap(y,80,h)
+#' y <- rexp(100,1)
+#' h <- 0.79 * IQR(y) * length(y) ^ (-1/5)
+#' den <- Laplace(y, 200, h)
+#' plot(den, type = "s", ylab = "Density Function", lty = 1, xlab = "Time")
+#' d1 <- density(y, bw=h)
+#' lines(d1,type="p",col="red")
+#' legend("topright", c("Real Density", "Density by Laplace Kernel"), col=c("red", "black"))
+#' @return nothing
+#' @author Javaria Ahmad Khan, Atif Akbar.
+#' @references Khan, J. A.; Akbar, A. Density Estimation by Laplace Kernel. \emph{Working paper,  Department of Statistics, Bahauddin Zakariya University, Multan, Pakistan.}
+#' @seealso To examine Laplace estimated values for density see \code{\link{Laplace}} and for Mean Squared Error \code{\link{mseLap}}. Similarly, for plot of Laplace kernel \code{\link{plot.RIG}}.
+
 #' @export
-#'
- graphLap<-function(y,k,h){
-n <- length(y)
-x <- seq(min(y) + 0.05, max(y), length = k)
-
-fhat <- rep(0, k)
-KLaplace <- matrix(rep(0, k * n), ncol = k)
-
-for(j in 1:k) {
-  for(i in 1:n) {
-
-    KLaplace[i, j] <-(1/(2*sqrt(h)))*exp(-(abs(y[i]-(x[j])))/sqrt(h))
-  }
-  fhat[j] <- 1/n * (sum(KLaplace[, j]))
-  d1<-density(y,bw=h)
-  plot(x,fhat, type="l", ylab = "Density Function",ylim=c(min(fhat),(max(fhat)+0.2))  ,lty = 2, xlab = "Time")
-  lines(d1,type="l",col="green")
-  legend("topright", c("Real Density", "Density by Laplace Kernel"),
-         col=c("green", "black"), lty=c(1,2))
-}}
+plot.Laplace <- function(x,...) {
+   plot(x$x, x$y,...)
+}
 
  #' Calculate Mean Squared Error( MSE) when RIG kernel is used.
  #'
@@ -75,14 +167,17 @@ for(j in 1:k) {
  #'     if use gamma distribution then use "Gamma".If Weibull distribution then use "Weibull".
  #' @import graphics
  #' @import stats
+ #' @references Scaillet, O. 2004. Density estimation using inverse and reciprocal inverse Gaussian kernels. 	 \emph{Nonparametric Statistics}, \strong{16}, 217-226.
+ #' @seealso For further MSE by using Laplace kernel see \code{\link{mseLap}}. For density estimation by using RIG Kernel \code{\link{plot.RIG}} and for estimated values
+ #' of density \code{\link{RIG}}.
  #' @examples
  #' y<-rexp(100,1)
  #' h<-0.79 * IQR(y) * length(y) ^ (-1/5)
- #' mserig(y,200,h,"exp")
+ #' mseRIG(y,200,h,"Exp")
  #' @return MSE
  #' @export
  #'
- mserig<-function(y,k,h,type){
+ mseRIG<-function(y,k,h,type){
    n <- length(y)
    x <- seq(min(y) + 0.05, max(y), length = k)
    ftrue<-switch(type,
@@ -100,12 +195,12 @@ for(j in 1:k) {
      for(i in 1:n) {
 
        KRIG[i, j] <- 1/(sqrt(2 * pi * h * y[i])) * exp(((-1 *(y[i] - h))/(2 * h) * (x[j]/(y[i] - h) - 2 +(y[i] - h)/x[j])))
-     }# 1st loop end
+     }
      fhat[j] <- 1/n * (sum(KRIG[, j]))
 
-   }#2nd loop end
+   }
    return(mean((ftrue-fhat)^2))#mse of fhat w.r.t. the true density
- }#function end
+ }
 
 
  #' Calculate Mean Squared Error( MSE) when Laplace Kernel is used.
@@ -118,14 +213,17 @@ for(j in 1:k) {
  #'     if use gamma distribution then use "Gamma".If Weibull distribution then use "Weibull".
  #' @import graphics
  #' @import stats
+ #' @references Khan, J. A.; Akbar, A. Density Estimation by Laplace Kernel. \emph{Working paper,  Department of Statistics, Bahauddin Zakariya University, Multan, Pakistan.}
+ #' @seealso For further MSE by using RIG kernel see \code{\link{mseRIG}}. For density estimation by using Laplace Kernel \code{\link{plot.Laplace}} and for estimated values
+ #' of density \code{\link{Laplace}}.
  #' @examples
  #' y<-rexp(100,1)
  #'  h<-0.79 * IQR(y) * length(y) ^ (-1/5)
- #'  mselap(y,200,h,"exp")
+ #'  mseLap(y,200,h,"Exp")
  #' @return MSE
  #' @export
  #'
- mselap<-function(y,k,h,type){
+ mseLap<-function(y,k,h,type){
    n <- length(y)
    x <- seq(min(y) + 0.05, max(y), length = k)
    ftrue<-switch(type,
@@ -142,12 +240,12 @@ for(j in 1:k) {
      for(i in 1:n) {
 
        KLaplace[i, j] <-(1/(2*sqrt(h)))*exp(-(abs(y[i]-(x[j])))/sqrt(h))
-     }# 1st loop end
+     }
      fhat[j] <- 1/n * (sum(KLaplace[, j]))
 
-   }#2nd loop end
-   return(mean((ftrue-fhat)^2))#mse of fhat w.r.t. the true density
- }#function end
+   }
+   return(mean((ftrue-fhat)^2))
+ }
 
  #' Bandwidth Calculation.
  #'
@@ -155,6 +253,8 @@ for(j in 1:k) {
  #' @param y a numeric vector of positive values.
  #' @import graphics
  #' @import stats
+ #' @author Javaria Ahmad Khan, Atif Akbar.
+ #' @references Silverman, B. W. 1986. \emph{Density Estimation}. Chapman & Hall/ CRC, London.
  #' @examples
  #' y<-rexp(10,1)
  #'  NSR(y)
@@ -167,6 +267,10 @@ for(j in 1:k) {
  #' Calculate MSE with and ranking of Bandwidth with respect to MSE for RIG kernel.
  #'
  #' Caculate MSE with 19 bandwidths by using Resiprocal Inverse Gaussian Kernel.
+ #' @details This function helps to calculate MSE by using 19 different bandwidths which are Normal Sacale Rule (NSR), Complete Cross Validation (CCV), Biased Cross Validation (BCV), Unbiased Cross Validation (UBCV),
+ #' Direct Plug-In (DPI), Modified Cross Validation (MCV), Maximum Likelihood Cross Validation (MLCV), Trimmed Cross Validation (TCV),Smooth Cross Validation (SCV), Bootstrap without Sampling (bWOs), Bootstrap with Sampling (bWs),
+ #'  Bandwidth of Altman and Leger (AL),One-sided Cross Validation (OCV), Akaike information criterion (AIC),Indirect Cross Validation (ICV), Mallow’ Cp (MallowCp), Generalized Cross Validation (GCV), Polansky and Baker Plug-In (PB),
+ #'  and Gasser, Kniep, and Köhler Cross Validation (GKK). For RIG kernel see \code{\link{laphcomp}}
  #' @param y a numeric vector of positive values.
  #' @param k gird points.
  #' @param type mention distribution of vector.If exponential distribution then use "Exp".
@@ -191,40 +295,42 @@ for(j in 1:k) {
  #'  \donttest{y<-rexp(100,1)
  #'   righcomp(y, 200, "Exp")}
  #' @return MSE withh 19 bandwidths, Ranks, Minimum MSE, Maximum MSE
+ #' @references Scaillet, O. 2004. Density estimation using inverse and reciprocal inverse Gaussian kernels. 	 \emph{Nonparametric Statistics}, \strong{16}, 217-226.
+ #' @author Javaria Ahmad Khan, Atif Akbar.
  #' @export
  righcomp<-function(y,k,type){
  n <- length(y)
  sd<-sd(y)
  x <- seq(min(y) + 0.05, max(y), length = k)
 
- PI <- abs(dpik(y) )                        ###plug-in
- AL<-abs(ALbw(vec_data=y))		###bandwidth of Altman and Leger
- bw2<-h.bcv(y)                         ###biased cross-validation.
+ PI <- abs(dpik(y) )
+ AL<-abs(ALbw(vec_data=y))
+ bw2<-h.bcv(y)
  BCV<-abs(bw2$h)
- bw3<-h.ccv(y)                         ###complete cross-validation
+ bw3<-h.ccv(y)
  CCV<-abs(bw3$h)
- RoT <-abs(1.06*sd(y)*(n^(-1/5)))          ###normal scale rule
- bw8<-h.ucv(y)                         ###unbiased cross-validation
+ RoT <-abs(1.06*sd(y)*(n^(-1/5)))
+ bw8<-h.ucv(y)
  UCV<-abs(bw8$h)
  bw10<-kdeb(y, h0 = 0.01 * sd, h1 = sd, meth = c("AIC", "LCV", "LSCV", "BCV","SJPI", "GKK"), kern = "gauss", gf = 2.5)
- AIC<-abs(bw10[1])			###Akaike information criterion
- GKK<-abs(bw10[6])			###Gasser, Kneip and K¨ohler (1991)
- ICV<-abs(h_ICV(y))			###Indirect cross- validation
- bw8<-cp(y,  sig2=1)			###MAllow
+ AIC<-abs(bw10[1])
+ GKK<-abs(bw10[6])
+ ICV<-abs(h_ICV(y))
+ bw8<-cp(y,  sig2=1)
  mallow<-abs(bw8[5])
- bWr<-bw.dboot2(y,sd,h0='dboot1',error='normal',B=1000,grid=100,ub=2)###bootstap with sampling
+ bWr<-bw.dboot2(y,sd,h0='dboot1',error='normal',B=1000,grid=100,ub=2)
  bw=gcv(y)
- gcv=abs(bw[4] )                            ###generalized cross-validation
- bw5<-h.mcv(y)                         ###modified cross-validation
+ gcv=abs(bw[4] )
+ bw5<-h.mcv(y)
  MCV<-abs(bw5$h)
- bw6<-h.mlcv(y)                        ###maximum likelihood cross-validation
+ bw6<-h.mlcv(y)
  MLCV<-abs(bw6$h)
- bw7<-h.tcv(y)                         ###trimmed cross-validation
+ bw7<-h.tcv(y)
  TCV<-abs(bw7$h)
- SCV<-abs(hscv(y))		###smooth cross validation
- bWOr<-bw.dboot1(y,sd, h0="dnrd", error="normal", grid=100, ub=2)###bootstap without sampling
- pb<-PBbw( vec_data=y)		#PB
- oscv<-h_OSCV_dens(y,0)			#Onesided cross validation
+ SCV<-abs(hscv(y))
+ bWOr<-bw.dboot1(y,sd, h0="dnrd", error="normal", grid=100, ub=2)
+ pb<-PBbw( vec_data=y)
+ oscv<-h_OSCV_dens(y,0)
 
  ftrue<-switch(type,
 
@@ -294,7 +400,7 @@ for(j in 1:k) {
      KRIG17[i, j] <- 1/(sqrt(2 * pi * bWOr * y[i])) * exp(((-1 *(y[i] - bWOr))/(2 * bWOr) * (x[j]/(y[i] - bWOr) - 2 +(y[i] - bWOr)/x[j])))
      KRIG18[i, j] <- 1/(sqrt(2 * pi * pb * y[i])) * exp(((-1 *(y[i] - pb))/(2 * pb) * (x[j]/(y[i] - pb) - 2 +(y[i] - pb)/x[j])))
      KRIG19[i, j] <- 1/(sqrt(2 * pi *oscv * y[i])) * exp(((-1 *(y[i] - oscv))/(2 * oscv) * (x[j]/(y[i] - oscv) - 2 +(y[i] - oscv)/x[j])))
-   }# 1st loop end
+   }
 
    fhat1[j] <- 1/n * (sum(KRIG1[, j]))
    fhat2[j] <- 1/n * (sum(KRIG2[, j]))
@@ -316,16 +422,16 @@ for(j in 1:k) {
    fhat18[j] <- 1/n * (sum(KRIG18[, j]))
    fhat19[j] <- 1/n * (sum(KRIG19[, j]))
 
- }#2nd loop end
- dpi<-(mean((ftrue-fhat1)^2))#mse of fhat w.r.t. the true density
- al<-(mean((ftrue-fhat2)^2))#mse of fhat w.r.t. the true density
- bcv<-(mean((ftrue-fhat3)^2))#mse of fhat w.r.t. the true density
- ccv<-(mean((ftrue-fhat4)^2))#mse of fhat w.r.t. the true density
- nsr<-(mean((ftrue-fhat5)^2))#mse of fhat w.r.t. the true density
- ucv<-(mean((ftrue-fhat6)^2))#mse of fhat w.r.t. the true density
- aic<-(mean((ftrue-fhat7)^2))#mse of fhat w.r.t. the true density
- gkk<-(mean((ftrue-fhat8)^2))#mse of fhat w.r.t. the true density
- icv<-(mean((ftrue-fhat9)^2))#mse of fhat w.r.t. the true density
+ }
+ dpi<-(mean((ftrue-fhat1)^2))
+ al<-(mean((ftrue-fhat2)^2))
+ bcv<-(mean((ftrue-fhat3)^2))
+ ccv<-(mean((ftrue-fhat4)^2))
+ nsr<-(mean((ftrue-fhat5)^2))
+ ucv<-(mean((ftrue-fhat6)^2))
+ aic<-(mean((ftrue-fhat7)^2))
+ gkk<-(mean((ftrue-fhat8)^2))
+ icv<-(mean((ftrue-fhat9)^2))
  Mallow<-(mean((ftrue-fhat10)^2))#mse of fhat w.r.t. the true density
  bwr<-(mean((ftrue-fhat11)^2))#mse of fhat w.r.t. the true density
  Gcv<-(mean((ftrue-fhat12)^2))#mse of fhat w.r.t. the true density
@@ -343,10 +449,14 @@ for(j in 1:k) {
  maxi<-v[which.max(v)]
  list<-list("All MSE" = v,  "Rank"=rank,"Minimum MSE" = mini, "Maximum MSE"=maxi)
  return(list)
- }#function end
+ }
  #' Calculate MSE with and ranking of Bandwidth with respect to MSE for Laplace Kernel.
  #'
  #' Caculate MSE with 19 bandwidths by using Laplace Kernel.
+ #' @details This function helps to calculate MSE by using 19 different bandwidths which are Normal Sacale Rule (NSR), Complete Cross Validation (CCV), Biased Cross Validation (BCV), Unbiased Cross Validation (UBCV),
+ #' Direct Plug-In (DPI), Modified Cross Validation (MCV), Maximum Likelihood Cross Validation (MLCV), Trimmed Cross Validation (TCV), Smooth Cross Validation (SCV), Bootstrap without Sampling (bWOs), Bootstrap with Sampling (bWs),
+ #'  Bandwidth of Altman and Leger (AL), One-sided Cross Validation (OCV), Akaike information criterion (AIC), Indirect Cross Validation (ICV), Mallow’ Cp (MallowCp), Generalized Cross Validation (GCV), Polansky and Baker Plug-In (PB),
+ #'  and Gasser, Kniep, and Köhler Cross Validation (GKK). For RIG kernel see \code{\link{righcomp}}
  #' @param y a numeric vector of positive values.
  #' @param k gird points.
  #' @param type mention distribution of vector.If exponential distribution then use "Exp".
@@ -371,40 +481,42 @@ for(j in 1:k) {
  #'  \donttest{y<-rexp(100,1)
  #'   laphcomp(y, 200, "Exp")}
  #' @return MSE withh 19 bandwidths, Ranks, Minimum MSE, Maximum MSE
+ #' @author Javaria Ahmad Khan, Atif Akbar.
+ #' @references Khan, J. A.; Akbar, A. Density Estimation by Laplace Kernel. \emph{Working paper,  Department of Statistics, Bahauddin Zakariya University, Multan, Pakistan.}
  #' @export
  laphcomp<-function(y,k,type){
    n <- length(y)
    sd<-sd(y)
    x <- seq(min(y) + 0.05, max(y), length = k)
 
-   PI <- abs(dpik(y) )                        ###plug-in
-   AL<-abs(ALbw(vec_data=y))		###bandwidth of Altman and Leger
-   bw2<-h.bcv(y)                         ###biased cross-validation.
+   PI <- abs(dpik(y) )
+   AL<-abs(ALbw(vec_data=y))
+   bw2<-h.bcv(y)
    BCV<-abs(bw2$h)
-   bw3<-h.ccv(y)                         ###complete cross-validation
+   bw3<-h.ccv(y)
    CCV<-abs(bw3$h)
-   RoT <-abs(1.06*sd(y)*(n^(-1/5)))          ###normal scale rule
-   bw8<-h.ucv(y)                         ###unbiased cross-validation
+   RoT <-abs(1.06*sd(y)*(n^(-1/5)))
+   bw8<-h.ucv(y)
    UCV<-abs(bw8$h)
    bw10<-kdeb(y, h0 = 0.01 * sd, h1 = sd, meth = c("AIC", "LCV", "LSCV", "BCV","SJPI", "GKK"), kern = "gauss", gf = 2.5)
-   AIC<-abs(bw10[1])			###Akaike information criterion
-   GKK<-abs(bw10[6])			###Gasser, Kneip and K¨ohler (1991)
-   ICV<-abs(h_ICV(y))			###Indirect cross- validation
-   bw8<-cp(y,  sig2=1)			###MAllow
+   AIC<-abs(bw10[1])
+   GKK<-abs(bw10[6])
+   ICV<-abs(h_ICV(y))
+   bw8<-cp(y,  sig2=1)
    mallow<-abs(bw8[5])
-   bWr<-bw.dboot2(y,sd,h0='dboot1',error='normal',B=1000,grid=100,ub=2)###bootstap with sampling
+   bWr<-bw.dboot2(y,sd,h0='dboot1',error='normal',B=1000,grid=100,ub=2)
    bw=gcv(y)
-   gcv=abs(bw[4] )                            ###generalized cross-validation
-   bw5<-h.mcv(y)                         ###modified cross-validation
+   gcv=abs(bw[4] )
+   bw5<-h.mcv(y)
    MCV<-abs(bw5$h)
-   bw6<-h.mlcv(y)                        ###maximum likelihood cross-validation
+   bw6<-h.mlcv(y)
    MLCV<-abs(bw6$h)
-   bw7<-h.tcv(y)                         ###trimmed cross-validation
+   bw7<-h.tcv(y)
    TCV<-abs(bw7$h)
-   SCV<-abs(hscv(y))		###smooth cross validation
-   bWOr<-bw.dboot1(y,sd, h0="dnrd", error="normal", grid=100, ub=2)###bootstap without sampling
-   pb<-PBbw( vec_data=y)		#PB
-   oscv<-h_OSCV_dens(y,0)			#Onesided cross validation
+   SCV<-abs(hscv(y))
+   bWOr<-bw.dboot1(y,sd, h0="dnrd", error="normal", grid=100, ub=2)
+   pb<-PBbw( vec_data=y)
+   oscv<-h_OSCV_dens(y,0)
 
    ftrue<-switch(type,
 
@@ -475,7 +587,7 @@ for(j in 1:k) {
        KLaplace17[i, j] <-(1/(2*sqrt(bWOr)))*exp(-(abs(y[i]-(x[j])))/sqrt(bWOr))
        KLaplace18[i, j] <-(1/(2*sqrt(pb)))*exp(-(abs(y[i]-(x[j])))/sqrt(pb))
        KLaplace19[i, j] <-(1/(2*sqrt(oscv)))*exp(-(abs(y[i]-(x[j])))/sqrt(oscv))
-     }# 1st loop end
+     }
 
      fhat1[j] <- 1/n * (sum(KLaplace1[, j]))
      fhat2[j] <- 1/n * (sum(KLaplace2[, j]))
@@ -497,7 +609,7 @@ for(j in 1:k) {
      fhat18[j] <- 1/n * (sum(KLaplace18[, j]))
      fhat19[j] <- 1/n * (sum(KLaplace19[, j]))
 
-   }#2nd loop end
+   }
    dpi<-(mean((ftrue-fhat1)^2))#mse of fhat w.r.t. the true density
    al<-(mean((ftrue-fhat2)^2))#mse of fhat w.r.t. the true density
    bcv<-(mean((ftrue-fhat3)^2))#mse of fhat w.r.t. the true density
@@ -529,6 +641,7 @@ for(j in 1:k) {
  #' Plot Density by RIG and Laplace kernel.
  #'
  #' Plot densities by using Resiprocal Inverse Gaussian and Laplace Kernel.
+ #' @details It plot the densities by Laplace, RIG kernel and with real densities at the same time.
  #' @param y a numeric vector of positive values.
  #' @param k gird points.
  #' @param h the bandwidth
@@ -538,6 +651,9 @@ for(j in 1:k) {
  #' y<-rexp(100,1)
  #' h<-0.79 * IQR(y) * length(y) ^ (-1/5)
  #' compLR(y,80,h)
+ #' @author Javaria Ahmad Khan, Atif Akbar.
+ #' @references Khan, J. A.; Akbar, A. Density Estimation by Laplace Kernel. \emph{Working paper,  Department of Statistics, Bahauddin Zakariya University, Multan, Pakistan.}
+ #' Scaillet, O. 2004. Density estimation using inverse and reciprocal inverse Gaussian kernels. 	 \emph{Nonparametric Statistics}, \strong{16}, 217-226.
  #' @export
  compLR<-function(y,k,h){
    n <- length(y)

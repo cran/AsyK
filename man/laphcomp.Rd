@@ -15,16 +15,16 @@ laphcomp(y, k, type)
 if use gamma distribution then use "Gamma".If Weibull distribution then use "Weibull".}
 }
 \value{
-MSE withh 19 bandwidths, Ranks, Minimum MSE, Maximum MSE
+MSE with 19 bandwidths, Ranks, Minimum MSE, Maximum MSE
 }
 \description{
 Caculate MSE with 19 bandwidths by using Laplace Kernel.
 }
 \details{
-This function helps to calculate MSE by using 19 different bandwidths which are Normal Sacale Rule (NSR), Complete Cross Validation (CCV), Biased Cross Validation (BCV), Unbiased Cross Validation (UBCV),
+This function helps to calculate MSE by using 19 different bandwidths which are Normal Scale Rule (NSR), Complete Cross Validation (CCV), Biased Cross Validation (BCV), Unbiased Cross Validation (UBCV),
 Direct Plug-In (DPI), Modified Cross Validation (MCV), Maximum Likelihood Cross Validation (MLCV), Trimmed Cross Validation (TCV), Smooth Cross Validation (SCV), Bootstrap without Sampling (bWOs), Bootstrap with Sampling (bWs),
  Bandwidth of Altman and Leger (AL), One-sided Cross Validation (OCV), Akaike information criterion (AIC), Indirect Cross Validation (ICV), Mallow’ Cp (MallowCp), Generalized Cross Validation (GCV), Polansky and Baker Plug-In (PB),
- and Gasser, Kniep, and Köhler Cross Validation (GKK). For RIG kernel see \code{\link{righcomp}}
+ and Gasser, Kniep, and Köhler Cross Validation (GKK). For RIG kernel see \code{\link{righcomp}}.
 }
 \examples{
  \donttest{y<-rexp(100,1)

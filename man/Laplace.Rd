@@ -22,7 +22,7 @@ Estimated Kernel density values by using Laplace Kernel.
 }
 \details{
 Laplace kernel is developed by Khan and Akbar. Kernel is developed by using Chen's idea. Laplace kernel is;
-\deqn{K_{Laplace\left(x,h^{\frac{1}{2}}\right)} (u)=\frac{1}{2\sqrt h}exp \left(-\frac{|t{u-x}|}{\sqrt h}\right)}
+\deqn{K_{Laplace\left(x,h^{\frac{1}{2}}\right)} (u)=\frac{1}{2\sqrt h}exp \left(-\frac{|{u-x}|}{\sqrt h}\right)}
 }
 \examples{
 y <- rexp(100,1)

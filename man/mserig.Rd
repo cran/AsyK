@@ -17,7 +17,7 @@ mseRIG(y, k, h, type)
 if use gamma distribution then use "Gamma".If Weibull distribution then use "Weibull".}
 }
 \value{
-MSE
+Mean Squared Error
 }
 \description{
 Calculate MSE by using Resiprocal Inverse Gaussian Kernel.

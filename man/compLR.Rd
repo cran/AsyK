@@ -17,7 +17,7 @@ compLR(y, k, h)
 Plot densities by using Resiprocal Inverse Gaussian and Laplace Kernel.
 }
 \details{
-It plot the densities by Laplace, RIG kernel and with real densities at the same time.
+It plot the densities by Laplace, RIG kernel and with real density at the same time.
 }
 \examples{
 y<-rexp(100,1)
@@ -25,8 +25,10 @@ h<-0.79 * IQR(y) * length(y) ^ (-1/5)
 compLR(y,80,h)
 }
 \references{
-Khan, J. A.; Akbar, A. Density Estimation by Laplace Kernel. \emph{Working paper,  Department of Statistics, Bahauddin Zakariya University, Multan, Pakistan.}
-Scaillet, O. 2004. Density estimation using inverse and reciprocal inverse Gaussian kernels. 	 \emph{Nonparametric Statistics}, \strong{16}, 217-226.
+\itemize{
+\item Khan, J. A.; Akbar, A. Density Estimation by Laplace Kernel. \emph{Working paper,  Department of Statistics, Bahauddin Zakariya University, Multan, Pakistan.}
+\item Scaillet, O. 2004. Density estimation using inverse and reciprocal inverse Gaussian kernels. 	 \emph{Nonparametric Statistics}, \strong{16}, 217-226.
+}
 }
 \author{
 Javaria Ahmad Khan, Atif Akbar.

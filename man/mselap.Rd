@@ -17,7 +17,7 @@ mseLap(y, k, h, type)
 if use gamma distribution then use "Gamma".If Weibull distribution then use "Weibull".}
 }
 \value{
-MSE
+Mean Squared Error
 }
 \description{
 Calculate MSE by using Laplace Kernel.
@@ -25,7 +25,7 @@ Calculate MSE by using Laplace Kernel.
 \examples{
 y<-rexp(100,1)
  h<-0.79 * IQR(y) * length(y) ^ (-1/5)
- mseLap(y,200,h,"Exp")
+ mseLap(y, 200, h, "Exp")
 }
 \references{
 Khan, J. A.; Akbar, A. Density Estimation by Laplace Kernel. \emph{Working paper,  Department of Statistics, Bahauddin Zakariya University, Multan, Pakistan.}

@@ -5,32 +5,6 @@
 #' @description  A collection of functions related to density estimation by using Chen's (2000) idea. For observing estimated values see \code{\link{Laplace}} and \code{\link{RIG}}. Plots by using these kernels can be drawn by \code{\link{plot.Laplace}} and \code{\link{plot.RIG}}. Additionally, their combined plot is drawn by using \code{\link{compLR}}. Mean squared errors (MSE) can be calculated by \code{\link{mseLap}} and \code{\link{mseRIG}}. Further \code{\link{laphcomp}} and \code{\link{righcomp}} allows to calculate MSE by using
 #' 19 different bandwidths for both kernels. Here we also present a normal scale rule bandwidth which is given by Silverman (1986) for nonnormal data.
 #'@author Javaria Ahmad Khan, Atif Akbar.
-#'@references \itemize{
-#' \item Chen, S. X. 2000. Probability density function estimation using Gamma kernels. \emph{Annals of the Institute of Statistical Mathematics} \strong{52} (3), 471-480.
-#' \item Silverman, B. W. 1986. \emph{Density Estimation}. Chapman & Hall/ CRC, London.
-#' \item Sheather, S.J.; Jones, M.C. 1991. A Reliable Data-Based Bandwidth Selection Method for Kernel Density Estimation. \emph{Journal of the Royal Statistical Society, B}, \strong{53}, 683-690.
-#' \item Bowman, A.W.; Hall, P.; Prvan, T. 1998. Cross-validation for The Smoothing of Distribution Functions. \emph{Biometrika}, \strong{85}, 799-808.
-#' \item Rudemo, M. 1982. Empirical Choice of Histograms and Kernel Density Estimators. \emph{Scandinavian Journal of Statistics}, \strong{9}, 65–78.
-#' \item Feluch, W.; Koronacki, J. 1992. A Note on Modified Cross-Validation in Density Estimation. \emph{Computational Statistics and Data Analysis}, \strong{13}, 143–151.
-#' \item Stute, W. 1992. Modified Cross Validation in Density Estimation. \emph{Journal of Statistical Planning and Inference}, \strong{30}, 293–305.
-#' \item Miiller, H.-G. 1985. Empirical Bandwidth Choice for Nonparametric Kernel Regression by Means of Pilot Estimators. \emph{Statistics and Decisions}, Supplement No.\strong{2}, 193-206.
-#' \item Hall, P.; Marron, J.S.; Park, B.U. 1992. Smoothed Cross-Validation. \emph{Probability Theory and Related Fields}, 92}, 1-20.
-#' \item Habbema, J. D. F.; Hermans, J.; Van den Broek, K. 1974. \emph{A Discrimination Analysis Program Using Density Estimation. COMPSTAT 1974: Proceedings in Computational Statistics}. Physica Verlag, Vienna.
-#' \item Wang, X.F.; Wang, B. 2011. Deconvolution Estimation in Measurement Error Models: The R package decon. \emph{Journal of Statistical Software}, \strong{39} (10),1- 24.
-#' \item Altman, N.; Leger, C. 1995. Bandwidth Selection for Kernel Distribution Function Estimation. \emph{Journal of Statistical Planning and Inference}, \strong{46}, 195–214.
-#' \item Jones, M. C.; Kappenman, R. F. 1991. On A Class of Kernel Density Estimate Bandwidth Selectors. \emph{Scandinavian Journal of Statistics}, \strong{19},337–349.
-#' \item Scott, D. W., Terrel, G, R. 1987. Biased and Unbiased Cross-Validation in Density Estimation. \emph{Journal of the American Statistical Association}, \strong{82}, 1131–1146.
-#' \item Savchuk Y. O.; Jeffrey D.; Hart & Simon P. Sheather 2013. One-sided Cross-Validation for Non-smooth Regression Functions. \emph{Journal of Nonparametric Statistics}, \strong{25} (4), 889-904.
-#' \item Savchuk Y. O.; Jeffrey D.; Hart & Simon J. Sheather 2010. Indirect Cross Validation for Density Estimation. \emph{Journal of the American Statistical Association}, \strong{105} (489), 415-423.
-#' \item Polansky, A. M.; Baker, E. R. 2000. Multistage plug-in bandwidth selection for kernel distribution function estimates. \emph{Journal of Statistical Computation and Simulation}, \strong{65}, 63–80.
-#' \item Akaike, H. 1970. Statistical Predictor Identification. \emph{Annals of the Institute of Statistical Mathematics}, \strong{22}, 203-217.
-#' \item Mallows, C. 1973. Some Comments Cp. \emph{Technometrics}, \strong{15}, 661-675.
-#' \item Scaillet, O. 2004. Density estimation using inverse and reciprocal inverse Gaussian kernels. \emph{Nonparametric Statistics}, \strong{16}, 217-226.
-#' \item Carven, P.; Wahba, G. 1979. Smoothing Noisy Data with Spline Functions. \emph{Numerische Ifathemat Ik}, \strong{31}, 377-403.
-#' \item Staniswalis, J.G. 1989a. Local bandwidth selection for kernel estimates. \emph{Journal of the American Statistical Association}, \strong{84}, 284-8.
-#' \item Gasser, T.; Kneip, A.; K¨ohler, W.  1991. A Flexible and Fast Method for Automatic Smoothing. \emph{Journal of the American Statistical Association}, \strong{86}, 643–652.
-#' \item Khan, J. A.; Akbar, A. Density Estimation by Laplace Kernel. \emph{Working paper,  Department of Statistics, Bahauddin Zakariya University, Multan, Pakistan.}
-#' }
 "_PACKAGE"
 #' Estimated Density Values by Resiprocal Inverse Gaussian kernel
 #'
@@ -97,7 +71,7 @@ plot.RIG <- function(x,...) {
 #'
 #' Estimated Kernel density values by using Laplace Kernel.
 #' @details Laplace kernel is developed by Khan and Akbar. Kernel is developed by using Chen's idea. Laplace kernel is;
-#' \deqn{K_{Laplace\left(x,h^{\frac{1}{2}}\right)} (u)=\frac{1}{2\sqrt h}exp \left(-\frac{|t{u-x}|}{\sqrt h}\right)}
+#' \deqn{K_{Laplace\left(x,h^{\frac{1}{2}}\right)} (u)=\frac{1}{2\sqrt h}exp \left(-\frac{|{u-x}|}{\sqrt h}\right)}
 
 #' @param y a numeric vector of positive values.
 #' @param k gird points.
@@ -174,7 +148,7 @@ plot.Laplace <- function(x,...) {
  #' y<-rexp(100,1)
  #' h<-0.79 * IQR(y) * length(y) ^ (-1/5)
  #' mseRIG(y,200,h,"Exp")
- #' @return MSE
+ #' @return Mean Squared Error
  #' @export
  #'
  mseRIG<-function(y,k,h,type){
@@ -219,8 +193,8 @@ plot.Laplace <- function(x,...) {
  #' @examples
  #' y<-rexp(100,1)
  #'  h<-0.79 * IQR(y) * length(y) ^ (-1/5)
- #'  mseLap(y,200,h,"Exp")
- #' @return MSE
+ #'  mseLap(y, 200, h, "Exp")
+ #' @return Mean Squared Error
  #' @export
  #'
  mseLap<-function(y,k,h,type){
@@ -267,10 +241,10 @@ plot.Laplace <- function(x,...) {
  #' Calculate MSE with and ranking of Bandwidth with respect to MSE for RIG kernel.
  #'
  #' Caculate MSE with 19 bandwidths by using Resiprocal Inverse Gaussian Kernel.
- #' @details This function helps to calculate MSE by using 19 different bandwidths which are Normal Sacale Rule (NSR), Complete Cross Validation (CCV), Biased Cross Validation (BCV), Unbiased Cross Validation (UBCV),
+ #' @details This function helps to calculate MSE by using 19 different bandwidths which are Normal Scale Rule (NSR), Complete Cross Validation (CCV), Biased Cross Validation (BCV), Unbiased Cross Validation (UBCV),
  #' Direct Plug-In (DPI), Modified Cross Validation (MCV), Maximum Likelihood Cross Validation (MLCV), Trimmed Cross Validation (TCV),Smooth Cross Validation (SCV), Bootstrap without Sampling (bWOs), Bootstrap with Sampling (bWs),
  #'  Bandwidth of Altman and Leger (AL),One-sided Cross Validation (OCV), Akaike information criterion (AIC),Indirect Cross Validation (ICV), Mallow’ Cp (MallowCp), Generalized Cross Validation (GCV), Polansky and Baker Plug-In (PB),
- #'  and Gasser, Kniep, and Köhler Cross Validation (GKK). For RIG kernel see \code{\link{laphcomp}}
+ #'  and Gasser, Kniep, and Köhler Cross Validation (GKK). For Laplace kernel see \code{\link{laphcomp}}
  #' @param y a numeric vector of positive values.
  #' @param k gird points.
  #' @param type mention distribution of vector.If exponential distribution then use "Exp".
@@ -294,7 +268,7 @@ plot.Laplace <- function(x,...) {
  #' @examples
  #'  \donttest{y<-rexp(100,1)
  #'   righcomp(y, 200, "Exp")}
- #' @return MSE withh 19 bandwidths, Ranks, Minimum MSE, Maximum MSE
+ #' @return MSE with 19 bandwidths, Ranks, Minimum MSE, Maximum MSE
  #' @references Scaillet, O. 2004. Density estimation using inverse and reciprocal inverse Gaussian kernels. 	 \emph{Nonparametric Statistics}, \strong{16}, 217-226.
  #' @author Javaria Ahmad Khan, Atif Akbar.
  #' @export
@@ -453,10 +427,10 @@ plot.Laplace <- function(x,...) {
  #' Calculate MSE with and ranking of Bandwidth with respect to MSE for Laplace Kernel.
  #'
  #' Caculate MSE with 19 bandwidths by using Laplace Kernel.
- #' @details This function helps to calculate MSE by using 19 different bandwidths which are Normal Sacale Rule (NSR), Complete Cross Validation (CCV), Biased Cross Validation (BCV), Unbiased Cross Validation (UBCV),
+ #' @details This function helps to calculate MSE by using 19 different bandwidths which are Normal Scale Rule (NSR), Complete Cross Validation (CCV), Biased Cross Validation (BCV), Unbiased Cross Validation (UBCV),
  #' Direct Plug-In (DPI), Modified Cross Validation (MCV), Maximum Likelihood Cross Validation (MLCV), Trimmed Cross Validation (TCV), Smooth Cross Validation (SCV), Bootstrap without Sampling (bWOs), Bootstrap with Sampling (bWs),
  #'  Bandwidth of Altman and Leger (AL), One-sided Cross Validation (OCV), Akaike information criterion (AIC), Indirect Cross Validation (ICV), Mallow’ Cp (MallowCp), Generalized Cross Validation (GCV), Polansky and Baker Plug-In (PB),
- #'  and Gasser, Kniep, and Köhler Cross Validation (GKK). For RIG kernel see \code{\link{righcomp}}
+ #'  and Gasser, Kniep, and Köhler Cross Validation (GKK). For RIG kernel see \code{\link{righcomp}}.
  #' @param y a numeric vector of positive values.
  #' @param k gird points.
  #' @param type mention distribution of vector.If exponential distribution then use "Exp".
@@ -480,7 +454,7 @@ plot.Laplace <- function(x,...) {
  #' @examples
  #'  \donttest{y<-rexp(100,1)
  #'   laphcomp(y, 200, "Exp")}
- #' @return MSE withh 19 bandwidths, Ranks, Minimum MSE, Maximum MSE
+ #' @return MSE with 19 bandwidths, Ranks, Minimum MSE, Maximum MSE
  #' @author Javaria Ahmad Khan, Atif Akbar.
  #' @references Khan, J. A.; Akbar, A. Density Estimation by Laplace Kernel. \emph{Working paper,  Department of Statistics, Bahauddin Zakariya University, Multan, Pakistan.}
  #' @export
@@ -641,7 +615,7 @@ plot.Laplace <- function(x,...) {
  #' Plot Density by RIG and Laplace kernel.
  #'
  #' Plot densities by using Resiprocal Inverse Gaussian and Laplace Kernel.
- #' @details It plot the densities by Laplace, RIG kernel and with real densities at the same time.
+ #' @details It plot the densities by Laplace, RIG kernel and with real density at the same time.
  #' @param y a numeric vector of positive values.
  #' @param k gird points.
  #' @param h the bandwidth
@@ -652,8 +626,10 @@ plot.Laplace <- function(x,...) {
  #' h<-0.79 * IQR(y) * length(y) ^ (-1/5)
  #' compLR(y,80,h)
  #' @author Javaria Ahmad Khan, Atif Akbar.
- #' @references Khan, J. A.; Akbar, A. Density Estimation by Laplace Kernel. \emph{Working paper,  Department of Statistics, Bahauddin Zakariya University, Multan, Pakistan.}
- #' Scaillet, O. 2004. Density estimation using inverse and reciprocal inverse Gaussian kernels. 	 \emph{Nonparametric Statistics}, \strong{16}, 217-226.
+ #' @references \itemize{
+ #' \item Khan, J. A.; Akbar, A. Density Estimation by Laplace Kernel. \emph{Working paper,  Department of Statistics, Bahauddin Zakariya University, Multan, Pakistan.}
+ #' \item Scaillet, O. 2004. Density estimation using inverse and reciprocal inverse Gaussian kernels. 	 \emph{Nonparametric Statistics}, \strong{16}, 217-226.
+ #' }
  #' @export
  compLR<-function(y,k,h){
    n <- length(y)

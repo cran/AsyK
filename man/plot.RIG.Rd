@@ -2,7 +2,7 @@
 % Please edit documentation in R/AsyK.R
 \name{plot.RIG}
 \alias{plot.RIG}
-\title{Density Plot by Resiprocal Inverse Gaussian kernel}
+\title{Density Plot by Reciprocal Inverse Gaussian kernel}
 \usage{
 \method{plot}{RIG}(x, ...)
 }
@@ -15,22 +15,33 @@
 nothing
 }
 \description{
-Plot density by using Resiprocal Inverse Gaussian Kernel.
+Plot density by using Reciprocal Inverse Gaussian Kernel.
 }
 \examples{
-y <- rexp(100, 1)
+y <- rexp(200, 1)
 h <- 0.79 * IQR(y) * length(y) ^ (-1/5)
-den<-RIG(y,200,h)
+xx <- seq(min(y) + 0.05, max(y), length = 200)
+den <- RIG(x = xx, y = y, k = 200, h = h)
+plot(den, type = "l")
+
+
+##other details can also be added
+y <- rexp(200, 1)
+h <- 0.79 * IQR(y) * length(y) ^ (-1/5)
+den <- RIG(x = xx, y = y, k = 200, h = h)
 plot(den, type = "s", ylab = "Density Function", lty = 1, xlab = "Time")
-d1 <- density(y, bw=h) #To add true density along with estimated
-lines(d1,type="p",col="red")
-legend("topright", c("Real Density", "Density by RIG Kernel"), col=c("red", "black"), lty=c(1,2))
+
+## To add true density along with estimated
+d1 <- density(y, bw = h)
+lines(d1, type = "p", col = "red")
+legend("topright", c("Real Density", "Density by RIG Kernel"),
+col = c("red", "black"), lty = c(1, 2))
 }
 \references{
 Scaillet, O. 2004. Density estimation using inverse and reciprocal inverse Gaussian kernels. 	 \emph{Nonparametric Statistics}, \strong{16}, 217-226.
 }
 \seealso{
-To examine RIG estimated values for density see \code{\link{RIG}} and for Mean Squared Error \code{\link{mseRIG}}. Similarly, for plot of Laplace kernel \code{\link{plot.Laplace}}.
+To examine RIG estimated values for density see \code{\link{RIG}} and for Mean Squared Error \code{\link{mse}}. Similarly, for plot of Laplace kernel \code{\link{plot.Laplace}}.
 }
 \author{
 Javaria Ahmad Khan, Atif Akbar.

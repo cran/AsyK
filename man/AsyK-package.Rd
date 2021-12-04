@@ -6,11 +6,11 @@
 \alias{AsyK-package}
 \title{AsyK}
 \description{
-A collection of functions related to density estimation by using Chen's (2000) idea. For observing estimated values see \code{\link{Laplace}} and \code{\link{RIG}}. Plots by using these kernels can be drawn by \code{\link{plot.Laplace}} and \code{\link{plot.RIG}}. Additionally, their combined plot is drawn by using \code{\link{compLR}}. Mean squared errors (MSE) can be calculated by \code{\link{mseLap}} and \code{\link{mseRIG}}. Further \code{\link{laphcomp}} and \code{\link{righcomp}} allows to calculate MSE by using
-19 different bandwidths for both kernels. Here we also present a normal scale rule bandwidth which is given by Silverman (1986) for nonnormal data.
+A collection of functions related to density estimation by using Chen's (2000) idea. For observing estimated values see \code{\link{Laplace}} and \code{\link{RIG}}. Plots by using these kernels can be drawn by \code{\link{plot.Laplace}} and \code{\link{plot.RIG}}. Mean squared errors (MSE) can be calculated by \code{\link{mse}}.
+Here we also present a normal scale rule bandwidth which is given by Silverman (1986) for non-normal data.
 }
 \details{
-Kernel Density Estimation and Selection of Optimum Bandwidth
+Kernel Density Estimation
 }
 \seealso{
 Useful links:

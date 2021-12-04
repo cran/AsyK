@@ -2,11 +2,13 @@
 % Please edit documentation in R/AsyK.R
 \name{Laplace}
 \alias{Laplace}
-\title{Estimated Density Values by Laplace kernel}
+\title{Estimate Density Values by Laplace kernel}
 \usage{
-Laplace(y, k, h)
+Laplace(x = NULL, y, k = NULL, h = NULL)
 }
 \arguments{
+\item{x}{scheme for generating grid points}
+
 \item{y}{a numeric vector of positive values.}
 
 \item{k}{gird points.}
@@ -25,15 +27,42 @@ Laplace kernel is developed by Khan and Akbar. Kernel is developed by using Chen
 \deqn{K_{Laplace\left(x,h^{\frac{1}{2}}\right)} (u)=\frac{1}{2\sqrt h}exp \left(-\frac{|{u-x}|}{\sqrt h}\right)}
 }
 \examples{
-y <- rexp(100,1)
-h <- 0.79 * IQR(y) * length(y) ^ (-1/5)
-Laplace(y,200,h)
+#Data can be simulated or real data
+## Number of grid points "k" should be at least equal to the data size.
+### If user define the generating scheme of gridpoints than number of gridpoints should
+####be equal or greater than "k"
+###### otherwise NA will be produced.
+y <- rexp(100, 1)
+xx <- seq(min(y) + 0.05, max(y), length = 100)
+h <- 2
+den <- Laplace(x = xx, y = y, k = 200, h = h)
+
+##If scheme for generating gridpoints is unknown
+y <- rexp(50, 1)
+h <- 3
+den <- Laplace(y = y, k = 90, h = h)
+
+##If user do not mention the number of grid points
+y <- rexp(23, 1)
+xx <- seq(min(y) + 0.05, max(y), length = 90)
+
+\dontrun{
+#any bandwidth can be used
+require(KernSmooth)
+h <- dpik(y)
+den <- Laplace(x = xx, y = y, h = h)
+}
+
+#if bandwidth is missing
+y <- rexp(100, 1)
+xx <- seq(min(y) + 0.05, max(y), length = 100)
+den <- Laplace(x = xx, y = y, k = 90)
 }
 \references{
 Khan, J. A.; Akbar, A. Density Estimation by Laplace Kernel. \emph{Working paper,  Department of Statistics, Bahauddin Zakariya University, Multan, Pakistan.}
 }
 \seealso{
-To examine laplace density plot see \code{\link{plot.Laplace}} and for Mean Squared Error \code{\link{mseLap}}. Similarly, for RIG kernel \code{\link{RIG}}.
+To examine Laplace density plot see \code{\link{plot.Laplace}} and for Mean Squared Error \code{\link{mse}}. Similarly, for RIG kernel \code{\link{RIG}}.
 }
 \author{
 Javaria Ahmad Khan, Atif Akbar.

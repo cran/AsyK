@@ -18,19 +18,30 @@ nothing
 Plot density by using Laplace Kernel.
 }
 \examples{
-y <- rexp(100,1)
+y <- rexp(100, 1)
 h <- 0.79 * IQR(y) * length(y) ^ (-1/5)
-den <- Laplace(y, 200, h)
+xx <- seq(min(y) + 0.05, max(y), length = 100)
+den <- Laplace(x = xx, y = y, k = 100, h = h)
+plot(den, type = "l")
+
+
+##other details can also be added
+y <- rexp(100, 1)
+h <- 0.79 * IQR(y) * length(y) ^ (-1/5)
+den <- Laplace(x = xx, y = y, k = 100, h = h)
 plot(den, type = "s", ylab = "Density Function", lty = 1, xlab = "Time")
-d1 <- density(y, bw=h)
-lines(d1,type="p",col="red")
-legend("topright", c("Real Density", "Density by Laplace Kernel"), col=c("red", "black"))
+
+## To add true density along with estimated
+d1 <- density(y, bw = h)
+lines(d1, type = "p", col = "red")
+legend("topright", c("Real Density", "Density by RIG Kernel"),
+col = c("red", "black"), lty = c(1, 2))
 }
 \references{
 Khan, J. A.; Akbar, A. Density Estimation by Laplace Kernel. \emph{Working paper,  Department of Statistics, Bahauddin Zakariya University, Multan, Pakistan.}
 }
 \seealso{
-To examine Laplace estimated values for density see \code{\link{Laplace}} and for Mean Squared Error \code{\link{mseLap}}. Similarly, for plot of Laplace kernel \code{\link{plot.RIG}}.
+To examine Laplace estimated values for density see \code{\link{Laplace}} and for Mean Squared Error \code{\link{mse}}. Similarly, for plot of Laplace kernel \code{\link{plot.RIG}}.
 }
 \author{
 Javaria Ahmad Khan, Atif Akbar.

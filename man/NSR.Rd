@@ -13,10 +13,10 @@ NSR(y)
 h
 }
 \description{
-Calculate Bandwidth proposed by Silverman for nonnormal data.
+Calculate Bandwidth proposed by Silverman for non-normal data.
 }
 \examples{
-y<-rexp(10,1)
+y <- rexp(10, 1)
  NSR(y)
 }
 \references{

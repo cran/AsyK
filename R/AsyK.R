@@ -223,15 +223,30 @@ plot.Laplace <- function(x,...) {
 #' @param type mention distribution of vector.If exponential distribution then use \code{"Exp"}.
 #'     If use gamma distribution then use \code{"Gamma"}.If Weibull distribution then use \code{"Weibull"}.
 #' @import stats
-#' @importFrom DELTD mse
+#' @seealso This is also available in \pkg{DELTD}
 #' @author Javaria Ahmad Khan, Atif Akbar.
 #' @references  \url{https://CRAN.R-project.org/package=DELTD}
 #'
+#' @examples
+#' y <- rexp(100, 1)
+#' xx <- seq(min(y) + 0.05, max(y), length = 500)
+#' h <- 2
+#' gr <- Laplace(x = xx, y = y, k = 200, h = h)
+#' mse(kernel = gr, type = "Exp")
+#' ## if distribution is other than mentioned \code{type} is used then NaN will be produced.
+#' \dontrun{
+#' mse(kernel = gr, type ="Beta")
+#' }
 #' @return Mean Squared Error (MSE)
 #' @export
- #'
- MSE<-function(kernel,type) DELTD::mse(kernel, type)
- #' Bandwidth Calculation.
+mse<-function(kernel,type){
+   ftrue<-switch(type,
+                 Exp = dexp(kernel$x, (1 / mean(kernel$x))),
+                 Gamma = dgamma(kernel$x, (mean(kernel$x) / (var(kernel$x) / mean(kernel$x))), (var(kernel$x) / mean(kernel$x))),
+                 Weibull = dweibull(kernel$x, ((sd(kernel$x) / mean(kernel$x)) ^ - 1.806), scale = 1, log = FALSE)
+   )
+   return(mean((ftrue-kernel$y)^2))#mse of fhat w.r.t. the true density
+}
  #'
  #' Calculate Bandwidth proposed by Silverman for non-normal data.
  #' @param y a numeric vector of positive values.

@@ -2,7 +2,7 @@
 % Please edit documentation in R/AsyK.R
 \name{NSR}
 \alias{NSR}
-\title{Bandwidth Calculation.}
+\title{Calculate Bandwidth proposed by Silverman for non-normal data.}
 \usage{
 NSR(y)
 }
